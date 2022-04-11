@@ -5,6 +5,101 @@
 int Time = 30 * 60;
 int Remain = 3;
 
+/*
+* int GetIntArray(int o_a[], int i_n, char* i_s)
+* 戻り値：設定できた配列の数 5
+* o_a[]:出力配列 o_a[0]=6,o_a[1]=1,o_a[2]=2,o_a[3]=3,o_a[4]=4
+* i_n:出力配列の要素数
+* i_s:入力文字列　"6,1,2,3,4"
+*/
+#include <ctype.h>
+int CsvIntArray(int o_a[], int i_n, char* i_s)
+{
+	int rtnNum = 0;
+	char buf[256];
+	int iBuf = 0;
+	int iStr = 0;
+	while (i_s[iStr] != '\0')
+	{
+		if (isdigit(i_s[iStr]))
+		{
+			buf[iBuf++] = i_s[iStr++];
+		}
+		else
+		{
+			iStr++;
+			if (iBuf != 0)
+			{
+				buf[iBuf] = '\0';
+				if (rtnNum < i_n)
+				{
+					o_a[rtnNum++] = atoi(buf);
+				}
+				else
+				{
+					break;
+				}
+			}
+			iBuf = 0;
+		}
+	}
+	if (iBuf != 0)
+	{
+		buf[iBuf] = '\0';
+		if (rtnNum < i_n)
+		{
+			o_a[rtnNum++] = atoi(buf);
+		}
+	}
+	return rtnNum;
+}
+/*
+* int CsvArray(char* o_a[], int i_n, char* i_s)
+* 戻り値：設定できた配列の数 5
+* o_a[]:出力配列 o_a[0]="6",o_a[1]="1",o_a[2]="2",o_a[3]="3",o_a[4]="4"
+* i_n:出力配列の要素数
+* i_s:入力文字列　"6,1,2,3,4"
+*/
+int CsvIntArray(char* o_a[], int i_n, char* i_s)
+{
+	int rtnNum = 0;
+	int iBuf = 0;
+	int iStr = 0;
+	while (i_s[iStr] != '\0')
+	{
+		if (!(i_s[iStr] == ','))
+		{
+			o_a[rtnNum][iBuf++] = i_s[iStr++];
+		}
+		else
+		{
+			iStr++;
+			if (iBuf != 0)
+			{
+				o_a[rtnNum][iBuf] = '\0';
+				if (rtnNum < i_n)
+				{
+					rtnNum++;
+				}
+				else
+				{
+					break;
+				}
+			}
+			iBuf = 0;
+		}
+	}
+	if (rtnNum < i_n)
+	{
+		if (iBuf != 0)
+		{
+			o_a[rtnNum][iBuf] = '\0';
+			rtnNum++;
+		}
+	}
+	return rtnNum;
+}
+
 void CSceneGame::Init() {
 	//シーンの設定
 	mScene = EGAME;
@@ -66,6 +161,13 @@ void CSceneGame::Init() {
 				*/
 			}
 		}
+	}
+
+	int out[10], n = 10;
+	int rtn = CsvIntArray(out, 3, ",60,10,20,30,40,");
+	for (int i = 0; i < rtn; i++)
+	{
+		printf("%d\n", out[i]);
 	}
 }
 
