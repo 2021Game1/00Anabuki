@@ -17,6 +17,7 @@ public:
 	//•`‰æ
 	void Render();
 
+	void ChangePriority();
 
 };
 #endif //I—¹
